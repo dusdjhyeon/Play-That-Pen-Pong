@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <link rel="stylesheet" href="{% static 'single_pages/css/landing.css' %}">
+    <link rel="shortcut icon" href="{% static 'diary/css/images/favicon.ico' %}">
+    <script src="https://kit.fontawesome.com/c609b81c0f.js" crossorigin="anonymous"></script>
+    <title>pen pong</title>
+</head>
+<body>
+    <div id="cincopa_837a4c" style="float:left; position:relative; z-index:300;">...</div><script type="text/javascript">
+        var cpo = []; cpo["_object"] ="cincopa_837a4c"; cpo["_fid"] = "AkJAO7eWWQ_s";
+        var _cpmp = _cpmp || []; _cpmp.push(cpo);
+        (function() { var cp = document.createElement("script"); cp.type = "text/javascript";
+        cp.async = true; cp.src = "https://rtcdn.cincopa.com/libasync.js";
+        var c = document.getElementsByTagName("script")[0];
+        c.parentNode.insertBefore(cp, c); })(); </script>
+    <!-- <audio src="./musics/고래.mp3" controls autoplay loop></audio> -->
+
+    <div class="background">
+        <a href="/">
+            <img src="{% static 'single_pages/css/images/home.png' %}" style= "position:absolute; left:550px; top:28px; z-index:200">
+        </a>
+        <a href="/diary/avatar">
+            <img src="{% static 'single_pages/css/images/guest_book.png' %}" style= "position:absolute; left:610px; top:28px; z-index:200">
+        </a>
+        <a href="/diary/guest_book">
+            <img src="{% static 'single_pages/css/images/avatar.png' %}" style= "position:absolute; left:677px; top:31px; z-index:200">
+        </a>
+        <a href="/diary/">
+            <img src="{% static 'single_pages/css/images/diary.png' %}" style= "position:absolute; left:740px; top:28px; z-index:200">
+        </a>
+
+        {% block main_area %}
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% extends 'single_pages/base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block main_area %}
+
+<link rel="stylesheet" href="{% static 'diary/css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'diary/css/guest_book.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+
+<div class="wrapper">
+    <div class="wrapper__left">
+        <div class="wrapper__left__body">
+            <div class="header">
+                <img src="{% static 'diary/css/images/tape.png' %}" style="z-index:200; position:absolute; top:94px; left:54px; width:90px;">
+            <div class=our_book id="guest-{{ guest.pk }}">
+                {% for guest in page_obj %}
+                <img src='{{guest.sticker}}' draggable="true" onmouseenter="move(this.id)" style="width:77px; cursor:pointer;" id="sticker-{{ guest.pk }}" data-bs-target="#deleteStickerModal-{{ guest.pk }}">
+
+            <!-- Modal -->
+               <div class="modal hidden" id="deleteStickerModal-{{ guest.pk }}" tabindex="-1" aria-labelledby="deleteStickerModalLabel" aria-hidden="true">
+                  <div class="bg" id="bg-{{ guest.pk }}"></div>
+                  <div class="modalBox">
+                     <div class="head" style="text-align:center;"><p style="font-family: 'Poor Story', cursive;font-size:17px;text-align: center;"><strong>FROM.</strong> {{guest.author}}</p></div>
+                     <p style="font-family: 'Poor Story', cursive;font-size:17px;margin-top:5px;text-align: center;padding-top:5px;word-wrap:break-word;">
+                        <u>{{guest.content}}</u>
+                     </p>
+                  </div>
+               </div>
+               <script>
+                  var close = () =>{
+                     document.getElementById("deleteStickerModal-{{ guest.pk }}").classList.add("hidden");
+                  }
+                  document.querySelector("#sticker-{{ guest.pk }}").addEventListener("contextmenu",function(e){
+                     e.preventDefault();
+                     document.getElementById("deleteStickerModal-{{ guest.pk }}").classList.remove("hidden");
+                  },false);
+                  document.querySelector("#bg-{{ guest.pk }}").addEventListener("click",close);
+               </script>
+                {% endfor %}
+
+               <script>
+                  function move(ev) {
+
+                    let sticker = document.getElementById(ev);
+                    sticker.onmousedown = function(event) {
+                        let shiftX = event.clientX - sticker.getBoundingClientRect().left;
+                        let shiftY = event.clientY - sticker.getBoundingClientRect().top;
+
+                        sticker.style.position = 'absolute';
+                        sticker.style.zIndex = 100;
+                        document.body.append(sticker);
+
+                        moveAt(event.pageX, event.pagY);
+
+                        // 초기 좌표에서부터 스티커 이동
+                        function moveAt(pageX, pageY) {
+                            sticker.style.left = pageX - shiftX + 'px';
+                            sticker.style.top = pageY - shiftY + 'px';
+                        }
+
+                        function onMouseMove(event) {
+                            moveAt(event.pageX, event.pageY);
+                        }
+
+                        // mousemove로 스티커 움직이기
+                        document.addEventListener('mousemove', onMouseMove);
+
+                        // 스티커를 드롭하고, 불필요한 핸들러 제거
+                        sticker.onmouseup = function() {
+                            document.removeEventListener('mousemove', onMouseMove);
+                            sticker.onmouseup = null;
+                        };
+                    };
+
+                    sticker.ondragstart = function() {
+                        return false;
+                    };
+                  };
+
+                </script>
+
+                </div>
+                                <!-- Pagination -->
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}">
+                            <p style="position:absolute; font-family:'Poor Story', cursive; font-size:15px; color:black; left:210px; top:540px; z-index:200"/>Prev</p>
+                        </a>
+                    {% else %}
+                        <p style="position:absolute; font-family:'Poor Story', cursive; font-size:15px; color:black; left:210px; top:540px; z-index:200"/>Prev</p>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">
+                            <p style="position:absolute; font-family:'Poor Story', cursive; font-size:15px; color:black; left:300px; top:540px; z-index:200"/>Next</p>
+                        </a>
+                    {% else %}
+                        <p style="position:absolute; font-family:'Poor Story', cursive; font-size:15px; color:black; left:300px; top:540px; z-index:200"/>Next</p>
+                    {% endif %}
+            </div>
+            <img src="{% static 'diary/css/images/tape.png' %}" style="position:absolute; top:483px; left:394px; width:90px;">
+
+        </div>
+    </div>
+    <div class="wrapper__right">
+        <div class="wrapper__right__body" style="font-family:'Poor Story', cursive;">
+                <form action="{% url 'diary:guest_write' %}" method="post">
+                   {% csrf_token %}
+                      <tr>
+                         <td>
+                            Nickname : <input type="text" id="test" name="author" size=20 style="font-size:11px; font-weight:bold;">
+                         </td>
+                      </tr>
+                      <tr>
+                          <br>
+                         Content :<textarea name="content" id="content" style="font-size:11px; height:65px; width:330px; resize:none; margin-top:3px;" required></textarea>
+                      </tr>
+                      <tr>
+                        Sticker :
+                        <div class="table" style="padding-top:5px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/boat.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/boat.png' %}" style="height:80px;width:80px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/airplane.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/airplane.png' %}" style="height:80px;width:80px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/bird.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/bird.png' %}" style="height:80px;width:80px;">
+                        </div>
+                        <div class="table" style="padding-top:15px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/board.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/board.png' %}" style="height:80px;width:80px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/fish.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/fish.png' %}" style="height:80px;width:80px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/starfish.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/starfish.png' %}" style="height:80px;width:80px;">
+                        </div>
+                        <div class="table" style="padding-top:15px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/turtle.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/turtle.png' %}" style="height:80px;width:80px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/shell.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/shell.png' %}" style="height:80px;width:80px;">
+                           <input type = "radio" name = "sticker" value = "{% static 'diary/css/images/sticker/palm.png' %}" style="margin-left:15px;"><img src="{% static 'diary/css/images/sticker/palm.png' %}" style="height:80px;width:80px;">
+                        </div>
+                     </tr>
+                      <tr>
+                          <button type="submit" style="font-size:9px; bottom:30px; float:right;">Enter</button>
+                      </tr>
+                   <br>
+                   </br>
+                </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+{% endblock %}

@@ -1,0 +1,123 @@
+*{
+    margin: 0px;
+    box-sizing: border-box;
+}
+.background{
+    width: 1024px;
+    height: 609px;
+    background-image:url('./images/second.jpg');
+}
+.background_cover{
+    width:1024px;
+    height:609px;
+    background-image:url('./images/cover.png');
+}
+
+.wrapper{
+    position:absolute;
+    display: flex;
+    flex-direction: row;
+    padding-left: 62px;
+    padding-top: 65px;
+}
+.wrapper__left{
+    width: 400px;
+    height: 515px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top:20px;
+}
+
+.wrapper__left__body{
+    border-style: none;
+    width: 400px;
+    height: 495px;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 31px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.wrapper__left__body .header{
+    width: 100%;
+    height: 60%;
+}
+.headerGrey{
+    width: 155px;
+    height:  200px;
+    text-align: center;
+    background-color: #c4c4c4;
+    background-image:url('./images/profile.png');
+    background-size: cover;
+}
+
+.line{
+    border-top: 1px dotted black;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.profileWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 72px;
+
+}
+.profile{
+    color: #999999;
+   font-size: 9px;
+}
+
+.wrapper__left__body .footer {
+    width: 100%;
+    height: 53%;
+    display: flex;
+    align-items: flex-end;
+ }
+
+.wrapper__right{
+    width: 400px;
+    height: 515px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 100px;
+    z-index: 1;
+    padding-top:20px;
+}
+
+.wrapper__right__setting{
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.wrapper__right__body{
+    width: 400px;
+    height: 495px;
+}
+
+.randomQ{
+    width:380px;
+    height:240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.feelSelect{
+    width: 141px;
+}
+
+.bbbb{
+    color: red;
+}
+
+iframe{
+    width: 100%;
+    height: 100%;
+    border: none;
+}

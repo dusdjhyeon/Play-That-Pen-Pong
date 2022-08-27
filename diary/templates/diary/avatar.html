@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+{% extends 'single_pages/base.html' %}
+{% load static %}
+{% block main_area %}
+
+<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script src="http://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<link rel="stylesheet" href="{% static 'diary/css/post_list.css' %}">
+<link rel="stylesheet" href="{% static 'diary/css/avatar.css' %}">
+
+<div class="wrapper">
+    <div class="wrapper__left">
+        <div class="wrapper__left__body">
+            <button type="button" id="save" style="left:96px;position:absolute;height:70px;border:none;cursor:pointer;margin-top:7px;"><img src="{%static 'diary/css/images/start.png' %}"></button>
+            <div class="header">
+              <div class="capture" id="capture">
+                <div class=avatar>
+                    <div id="dhair" style="height:100px;width:200px;margin-top:102px;margin-left:37px;" ondrop="drop(event)" ondragover="dragEnter(event)"></div>
+                    <div id="dwear" style="height:210px;width:200px;margin-top:-101px;margin-left:36px;" ondrop="drop(event)" ondragover="dragEnter(event)"></div>
+                     <div id="dacc" style="height:270px;width:200px;margin-top:-216px;margin-left:32px;" ondrop="drop(event)" ondragover="dragEnter(event)"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <script>
+          $(function(){
+            $("#save").click(function(){
+              html2canvas($('#capture').get(0)).then(function(canvas){
+               var data=canvas.toDataURL();
+               //console.log(data);a
+               //document.getElementById('img').appendChild(canvas)
+
+               //ajax 통신
+               $.ajax({
+                  type:'POST',
+                  url :"{% url 'diary:avatar_profile' %}",
+                  data:{data:data},
+                  success:function(result){
+                    alert("프로필로 설정 완료!")
+                  },
+                  error: function(e){alert("err")}
+                });
+              });
+            });
+          });
+        </script>
+    </div>
+
+    <div class="wrapper__right">
+        <div class="wrapper__right__body" style="position:relative">
+            <img src="{% static 'diary/css/images/hearts4.png' %}" style="position:absolute; left:60px; top:55px; width:80px; height:30px">
+            <div class="avatar-hair" style="position:absolute; left:150px; top:-30px">
+                <img src="{% static 'diary/css/images/avatar/hair0.png' %}"style="width:265px; height:265px; cursor:pointer" id="avatar-hair" ondragstart="drag(event)" draggable="true">
+            </div>
+            <div class="hair-change" style="position:absolute; left:20px; top:90px; z-index:100">
+                <img src="{% static 'diary/css/images/left.png' %}" style="width:50px; height:50px; cursor:pointer;" onclick="downhairButton()">
+                <img src="{% static 'diary/css/images/hair.png' %}">
+                <img src="{% static 'diary/css/images/right.png' %}" style="width:50px; height:50px; cursor:pointer;" onclick="uphairButton()">
+            </div>
+            <img src="{% static 'diary/css/images/hearts5.png' %}" style="position:absolute; left:60px; top:205px; width:80px; height:30px">
+            <div class="avatar-clothes" style="position:absolute; left:150px; top:90px;">
+                <img src="{% static 'diary/css/images/avatar/clothes0.png' %}" style="width:270px; height:270px; cursor:pointer" id="avatar-clothes" ondragstart="drag(event)" draggable="true">
+            </div>
+            <div class="clothes-change" style="position:absolute; left:20px; top:240px; z-index:100">
+                <img src="{% static 'diary/css/images/left.png' %}" style="width:50px; height:50px; cursor:pointer;" onclick="downclothesButton()">
+                <img src="{% static 'diary/css/images/wear.png' %}">
+                <img src="{% static 'diary/css/images/right.png' %}" style="width:50px; height:50px; cursor:pointer;" onclick="upclothesButton()">
+            </div>
+            <img src="{% static 'diary/css/images/hearts6.png' %}" style="position:absolute; left:60px; top:345px; width:80px; height:30px">
+            <div class="avatar-acc" style="position:absolute; left:150px; top: 250px">
+                <img src="{% static 'diary/css/images/avatar/acc0.png' %}" style="width:275px; height:275px; cursor:pointer" id="avatar-acc" ondragstart="drag(event)" draggable="true">
+            </div>
+            <div class="acc-change" style="position:absolute; left:20px; top:380px; z-index:100">
+                <img src="{% static 'diary/css/images/left.png' %}" style="width:50px; height:50px; cursor:pointer;" onclick="downaccButton()">
+                <img src="{% static 'diary/css/images/acc.png' %}">
+                <img src="{% static 'diary/css/images/right.png' %}" style="width:50px; height:50px; cursor:pointer;" onclick="upaccButton()">
+            </div>
+
+             <script>
+                var hair_img = ["{% static 'diary/css/images/avatar/hair0.png' %}", "{% static 'diary/css/images/avatar/hair1.png' %}", "{% static 'diary/css/images/avatar/hair2.png' %}",
+                "{% static 'diary/css/images/avatar/hair3.png' %}", "{% static 'diary/css/images/avatar/hair4.png' %}", "{% static 'diary/css/images/avatar/hair5.png' %}",
+                "{% static 'diary/css/images/avatar/hair6.png' %}", "{% static 'diary/css/images/avatar/hair7.png' %}", "{% static 'diary/css/images/avatar/hair8.png' %}"]
+                var clothes_img = ["{% static 'diary/css/images/avatar/clothes0.png' %}", "{% static 'diary/css/images/avatar/clothes1.png' %}", "{% static 'diary/css/images/avatar/clothes2.png' %}",
+                "{% static 'diary/css/images/avatar/clothes3.png' %}", "{% static 'diary/css/images/avatar/clothes4.png' %}", "{% static 'diary/css/images/avatar/clothes5.png' %}",
+                "{% static 'diary/css/images/avatar/clothes6.png' %}", "{% static 'diary/css/images/avatar/clothes7.png' %}", "{% static 'diary/css/images/avatar/clothes8.png' %}",
+                "{% static 'diary/css/images/avatar/clothes9.png' %}"]
+                var acc_img = ["{% static 'diary/css/images/avatar/acc0.png' %}", "{% static 'diary/css/images/avatar/acc1.png' %}", "{% static 'diary/css/images/avatar/acc2.png' %}",
+                "{% static 'diary/css/images/avatar/acc3.png' %}","{% static 'diary/css/images/avatar/acc4.png' %}", "{% static 'diary/css/images/avatar/acc5.png' %}"]
+                var hair_index = 0;
+                var clothes_index = 0;
+                var acc_index = 0;
+
+                function uphairButton() {
+                    if(hair_index>=8){hair_index=0;
+                        }else{hair_index++;}
+                    document.getElementById('avatar-hair').src = hair_img[hair_index];
+                }
+                function downhairButton() {
+                    if(hair_index<=0){hair_index=8;
+                        }else{hair_index--;}
+                    document.getElementById('avatar-hair').src = hair_img[hair_index];
+                }
+
+                function upclothesButton() {
+                if(clothes_index>=11){clothes_index=0;
+                    }else{clothes_index++;}
+                    document.getElementById('avatar-clothes').src = clothes_img[clothes_index];
+                }
+                function downclothesButton() {
+                if(clothes_index<=0){clothes_index=9;
+                    }else{clothes_index--;}
+                    document.getElementById('avatar-clothes').src = clothes_img[clothes_index];
+                }
+
+                function upaccButton() {
+                if(acc_index>=3){acc_index=0;
+                    }else{acc_index++;}
+                    document.getElementById('avatar-acc').src = acc_img[acc_index];
+                }
+                function downaccButton() {
+                if(acc_index<=0){acc_index=5;
+                    }else{acc_index--;}
+                    document.getElementById('avatar-acc').src = acc_img[acc_index];
+                }
+
+                function dragEnter(ev) {
+                    ev.preventDefault();
+                }
+
+                function drag(ev) {
+                    ev.dataTransfer.setData("text", ev.target.id);
+                }
+
+                function drop(ev) {
+                    ev.preventDefault();
+                    var data = ev.dataTransfer.getData("text");
+                    if(data==='avatar-hair'){
+                        document.getElementById('dhair').appendChild(document.getElementById(data));
+
+                    } else if(data==='avatar-clothes'){
+                        document.getElementById('dwear').appendChild(document.getElementById(data));
+
+                    }else if(data==='avatar-acc'){
+                        document.getElementById('dacc').appendChild(document.getElementById(data));
+                    }
+                }
+
+              </script>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+</html>

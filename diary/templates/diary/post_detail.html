@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+
+<head>
+
+  <link rel="shortcut icon" href="{% static 'diary/css/images/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'single_pages/css/comment.css' %}">
+
+  <title>{{ post.title }} - Diary</title>
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{% static 'diary/css/blog-post.css' %}" media="screen">
+  <script src="https://kit.fontawesome.com/c609b81c0f.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Post Content Column -->
+      <div class="col-lg-9" style="width:900px;padding-left:10px; margin-left:50px;background-color:#F5F5F5; height:flex;">
+        <div class="col-log-9" style="padding-left:610px">
+          <a href="/diary/" style="font-size:13px;" role="button"><button><i class="fas fa-book"></i> List</button></a>
+          {% if user.is_authenticated %}
+            <a href="/diary/update_post/{{ post.pk }}/" style="font-size:13px;" role="button"><button><i class="fas fa-pencil-alt"></i> Edit Post</button></a>
+            <button type="button" style="font-size:13px;" id="post-{{ post.pk }}" data-toggle="modal" data-target="#deletePostModal-{{ post.pk }}"><i class="fas fa-trash-alt"></i> Delete Post</button>
+            <!-- Modal -->
+               <div class="modal hidden" id="deletePostModal-{{ post.pk }}" aria-labelledby="deletePostModalLabel" tabindex="-1" aria-hidden="true">
+                  <div class="bg" id="bg-{{ post.pk }}"></div>
+                  <div class="modalBox">
+                     <div class="head"></div>
+                     <p class="modal-title" id="deletePostLabel" style="font-size:15px;">삭제하시겠습니까?</p>
+                     <a role="button" href="{% url 'diary:post_delete' post.id %}"><button>Yes</button></a>
+                     <button type="button" id="delpost-{{ post.pk }}">No</button>
+                  </div>
+               </div>
+               <script>
+                  var open = () =>{
+                     document.getElementById("deletePostModal-{{ post.pk }}").classList.remove("hidden");
+                  }
+                  var close = () =>{
+                     document.getElementById("deletePostModal-{{ post.pk }}").classList.add("hidden");
+                  }
+                  document.querySelector("#post-{{ post.pk }}").addEventListener("click",open);
+                  document.querySelector("#delpost-{{ post.pk }}").addEventListener("click", close);
+                  document.querySelector("#bg-{{ post.pk }}").addEventListener("click", close);
+               </script>
+
+          {% endif %}
+        </div>
+        <!-- Title -->
+        <h1 class="mt-4">{{ post.title }}</h1>
+
+        <!-- Date/Time -->
+        {% if post.created_at != post.updated_at %}
+          <p>Updated on {{ post.updated_at }}</p>
+        {% else %}
+          <p>Posted on {{ post.created_at }}</p>
+          {% endif %}
+        <hr>
+
+        <!-- Preview Image -->
+        {% if post.head_image %}
+        <img style="display:block; width:500px; margin:auto;" src="{{ post.head_image.url }}" alt="{{ post.title }} head_image">
+        <hr>
+        {% endif %}
+
+        <!-- Post Content -->
+        <p>{{ post.content | linebreaks }}</p>
+
+        {% if post.file_upload %}
+          <a href="{{ post.file_upload.url }}"><button type="button" class="btn btn-outline-secondary">
+            Download:
+
+            {% if post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
+            <i class="far fa-file-word"></i>
+            {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+            <i class="far fa-file-excel"></i>
+            {% elif post.get_file_ext == 'pdf' %}
+            <i class="far fa-file-pdf"></i>
+            {% else %}
+            <i class="far fa-file"></i>
+            {% endif %}
+            {{ post.get_file_name }}
+          </button></a>
+        {% endif %}
+        <hr>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

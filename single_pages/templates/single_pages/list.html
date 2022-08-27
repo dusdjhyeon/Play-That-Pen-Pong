@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load mathfilters %}
+{% load static %}
+
+<html lang="ko">
+<link rel="stylesheet" href="{% static 'single_pages/css/comment.css' %}">
+<body style="background-color:#F5F5F5">
+<div id="comment-{{ comment.pk }}">
+   <form action="{% url 'single_pages:write' %}" method="post">
+      {% csrf_token %}
+         <tr>
+            <td colspan="5">
+               <input type="text" id="test" name="question" size=25 style="font-size:10px; padding-top:7px; text-align:justify; font-weight:bold;" value="Click Heart!">
+               <img src="{% static 'diary/css/images/favicon.ico' %}" onclick="getValueInput()">
+                  <script>
+                     function que(){
+                     var A=new Array();
+                     A[0]= `살면서 놓쳤던 인연 중에 한 명을 다시
+                      잡을 수 있다면 누굴 잡을 것인지?`
+                     A[1]="내가 좋아하는 계절+시간대는?"
+                     A[2]="나는 몰랐지만 남이 말해줘서 알게된 나의 특징은 무엇이 있는지?"
+                     A[3]="내가 빠지지 않고 하는 하루의 일과 중 가장 특이한 행동은?"
+                     A[4]="인상 깊었던 생일은?"
+                     A[5]="아직도 기억하고 있는 꿈은?"
+                     A[6]="가족을 제외하고 내 인생에 가장 영향력 있던 사람은?"
+                     A[7]="특이하고 사소한 장점을 자랑해본다면?"
+                     A[8]="내가 자주하는 상상은?"
+                     var rend=Math.floor(A.length *Math.random());
+                     return A[rend];
+                  }
+                  const getValueInput = () =>{
+                     let inputValue=que();
+                     document.getElementById("test").value = inputValue;
+                  }
+                  </script>
+            </td>
+         </tr>
+         <tr>
+            <td colspan=5><textarea name="content" id="content" style="font-size:9px; height:65px; width:300px; resize:none; margin-top:3px;"></textarea></td>
+         </tr>
+         <tr>
+            <td colspan=4 align=right>
+               <button type="submit" style="font-size:9px; left:270px; top:98px; position:absolute">Enter</button>
+            </td>
+         </tr>
+      <br>
+      </br>
+   </form>
+
+         {% for comment in commentlist %}
+            <table style="font-size:9px;">
+               <tr>
+                  <td>Q :  {{comment.question}}</td>
+               </tr>
+               <tr>
+                  <td colspan=4>
+                  A: {{ comment.content }}
+
+                  </td>
+               </tr>
+               <td><button type="button" style="font-size:9px;" id="comment-{{ comment.pk }}" data-toggle="modal"
+                  data-target="#deleteCommentModal-{{ comment.pk }}">Delete</button></td>
+               <!-- Modal -->
+               <div class="modal hidden" id="deleteCommentModal-{{ comment.pk }}" aria-labelledby="deleteCommentModalLabel" tabindex="-1" aria-hidden="true">
+                  <div class="bg" id="bg-{{ comment.pk }}"></div>
+                  <div class="modalBox">
+                     <div class="head"></div>
+                     <p class="modal-title" id="deleteModalLabel" style="font-size:15px;">삭제하시겠습니까?</p>
+                     <a role="button" href="{% url 'single_pages:delete' comment.id %}"><button>Yes</button></a>
+                     <button type="button" id="delcomment-{{ comment.pk }}">No</button>
+                  </div>
+               </div>
+               <script>
+                  var open = () =>{
+                     document.getElementById("deleteCommentModal-{{ comment.pk }}").classList.remove("hidden");
+                  }
+                  var close = () =>{
+                     document.getElementById("deleteCommentModal-{{ comment.pk }}").classList.add("hidden");
+                  }
+                  document.querySelector("#comment-{{ comment.pk }}").addEventListener("click",open);
+                  document.querySelector("#delcomment-{{ comment.pk }}").addEventListener("click", close);
+                  document.querySelector("#bg-{{ comment.pk }}").addEventListener("click", close);
+               </script>
+            </table>
+            <br>
+         {% endfor %}
+</div>
+</body>
+</html>

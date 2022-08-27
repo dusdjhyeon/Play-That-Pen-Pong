@@ -1,0 +1,328 @@
+{% extends 'single_pages/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block main_area %}
+
+<link rel="stylesheet" href="{% static 'single_pages/css/comment.css' %}">
+<link rel="stylesheet" href="{% static 'single_pages/css/calendar.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<div class="wrapper">
+            <div class="wrapper__left">
+                <div class="wrapper__left__body">
+                    <div class="header">
+                        <div class=headerGrey style="float:left; margin-right:30px">
+                        </div>
+                        <div class="profileWrapper" style=" display:inline;">
+                            <a style="font-size:9px; color:#999999; cursor:pointer;" id="information" data-toggle="modal" data-target="informationModal">
+                                <i class="fas fa-pen" style="margin-bottom:20px; margin-top:30px; padding-left:55px;"> Edit</i>
+                            </a>
+                            <a href="/accounts/logout" style="font-size:9px; color:#999999; cursor:pointer; padding-left:5px;">
+                                <i class="fas fa-unlock"> Logout</i>
+                            </a>
+                            <div class="profile">
+                                <i class="fas fa-user"></i> Name : {{ profile.name }}
+                            </div>
+                            <div class="profile" style="margin-top:15px">
+                                <i class="fas fa-envelope"></i> E-mail : {{ profile.email }}
+                            </div>
+                            <div class="profile" style="margin-top:15px">
+                                <i class="fas fa-star"></i> Instagram : @{{ profile.instagram }}
+                            </div>
+                            <div class="profile" style="margin-top:15px">
+                                <i class="fas fa-hashtag"></i> MBTI : {{ profile.mbti }}
+                                </div>
+
+                            <!-- Modal -->
+               <div class="modal hidden" id="informationModal" aria-labelledby="informationModalLabel" tabindex="-1" aria-hidden="true">
+                  <div class="bg" id="bg-information"></div>
+                  <div class="modalBox" style="width:360px;height:145px;">
+                     <div class="head" style="height:20px;margin-bottom:10px;padding-bottom:2px;text-align:right;padding-right:5px;"></div>
+                     <p class="modal-title" id="informationModalLabel" style="font-size:15px;">
+                         <form action="{% url 'single_pages:information' %}" method="post">
+                      {% csrf_token %}
+                      <tr>
+                          <td>
+                              Name: <input type="text" name="name" size="10">
+                          </td>
+                      </tr>
+                      <br>
+                      <tr>
+                          <td>
+                              E-mail: <input type="text" name="email" size="30">
+                          </td>
+                      </tr>
+                      <br>
+                      <tr>
+                          <td>
+                              Instagram: <input type="text" name="instagram" size="20">
+                          </td>
+                      </tr>
+                      <br>
+                      <tr>
+                          <td>
+                              MBTI: <select class="MBTISelect" name = "mbti">
+                                    <option>INTJ 💖</option>
+                                    <option>INTP 🧡</option>
+                                    <option>ENTJ 💛</option>
+                                    <option>ENTP 💚</option>
+                                    <option>INFJ 💙</option>
+                                    <option>INFP 💜</option>
+                                    <option>ENFJ 🤎</option>
+                                    <option>ENFP 🖤</option>
+                                    <option>ISTJ 🤍</option>
+                                    <option>ISFJ 💟</option>
+                                    <option>ESTJ 💕</option>
+                                    <option>ESFJ 💓</option>
+                                    <option>ISTP 💝</option>
+                                    <option>ISFP 💞</option>
+                                    <option>ESTP 💘</option>
+                                    <option>ESFP 💗</option>
+                                </select>
+                          </td>
+                      </tr>
+                      <button type="submit" style="font-size:9px; margin-right:10px;float:right;">Enter</button>
+                  </form>
+
+                     </p>
+
+                  </div>
+               </div>
+               <script>
+                  var open = () =>{
+                     document.getElementById("informationModal").classList.remove("hidden");
+                  }
+                  var close = () =>{
+                     document.getElementById("informationModal").classList.add("hidden");
+                  }
+                  document.querySelector("#information").addEventListener("click",open);
+                  document.querySelector("#bg-information").addEventListener("click", close);
+               </script>
+
+                        </div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="footer">
+                        <div class="randomQ">
+                            <iframe src="/list"></iframe>
+                           </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper__right">
+                <div class="wrapper__right__body">
+                    <div class="container">
+                        <div class="my-calendar clearfix">
+                          <div class="calendar-box">
+                            <div class="ctr-box clearfix">
+                              <button type="button" title="prev" class="btn-cal prev">
+                              </button>
+                              <span class="cal-month"></span>
+                              <span class="cal-year"></span>
+                              <button type="button" title="next" class="btn-cal next">
+                              </button>
+                            </div>
+                            <table class="cal-table">
+                              <thead>
+                                <tr>
+                                  <th>S</th>
+                                  <th>M</th>
+                                  <th>T</th>
+                                  <th>W</th>
+                                  <th>T</th>
+                                  <th>F</th>
+                                  <th>S</th>
+                                </tr>
+                              </thead>
+                              <tbody class="cal-body"></tbody>
+                              <div class="modal hidden" id="todo" tabindex="-1" aria-hidden="true">
+                                <div id="bg" class="bg"></div>
+                                <div class="modalBox" style="width:200px; height:200px;">
+                                   <div class="calhead"></div>
+                                        <div class="cal-day"></div>
+                                        <div class="cal-date"></div>
+                                        <div class="url-body"></div>
+                                </div>
+                              </div>
+                            </table>
+                          </div>
+                        </div>
+                        <!-- // .my-calendar -->
+                      </div>
+                </div>
+            </div>
+        </div>
+<script type="text/javascript">
+    const init = {
+    monList: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    dayList: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    today: new Date(),
+    monForChange: new Date().getMonth(),
+    posts: [
+    {% for post in postall %}
+    {
+        post_date: "{{ post.created_at|date:"Ymd" }}",
+        title: "{{ post.title }}",
+        url: "{{ post.get_absolute_url }}",
+        {% if post.head_image %}
+        head_image: "{{ post.head_image.url }}"
+        {% else %}
+        head_image: "https://picsum.photos/seed/{{ post.id }}/139/139"
+        {% endif %}
+
+    },
+    {% endfor %}
+  ],
+    activeDate: new Date(),
+    getFirstDay: (yy, mm) => new Date(yy, mm, 1),
+    getLastDay: (yy, mm) => new Date(yy, mm + 1, 0),
+    nextMonth: function () {
+      let d = new Date();
+      d.setDate(1);
+      d.setMonth(++this.monForChange);
+      this.activeDate = d;
+      return d;
+    },
+    prevMonth: function () {
+      let d = new Date();
+      d.setDate(1);
+      d.setMonth(--this.monForChange);
+      this.activeDate = d;
+      return d;
+    },
+    addZero: (num) => (num < 10) ? '0' + num : num,
+    activeDTag: null,
+    getIndex: function (node) {
+      let index = 0;
+      while (node = node.previousElementSibling) {
+        index++;
+      }
+      return index;
+    }
+
+  };
+
+  const $calBody = document.querySelector('.cal-body');
+  const $btnNext = document.querySelector('.btn-cal.next');
+  const $btnPrev = document.querySelector('.btn-cal.prev');
+
+  const seDate=[]
+  const dateFunc=()=>{};
+
+
+
+  /**
+ * @param {number} date
+ * @param {number} dayIn
+*/
+
+function loadDate (date, dayIn) {
+    document.querySelector('.url-body').innerHTML="";
+    for (var i = 0; i < init.posts.length; i++) {
+      var what_day=seDate[0] + seDate[1]+seDate[2];
+        if (init.posts[i].post_date == what_day) {
+            document.querySelector('.url-body').innerHTML+= `<a href=${init.posts[i].url} style="font-size:6px; color:black;"><i class="fas fa-heart"></i> ${init.posts[i].title}</a><br>`;
+            console.log(document.querySelector('.url-body'));
+        }
+      }
+
+  document.querySelector('.cal-date').textContent = date;
+  document.querySelector('.cal-day').textContent = init.dayList[dayIn];
+}
+
+  /**
+   * @param {date} fullDate
+   */
+  function loadYYMM (fullDate) {
+    let yy = fullDate.getFullYear();
+    let mm = fullDate.getMonth();
+    let firstDay = init.getFirstDay(yy, mm);
+    let lastDay = init.getLastDay(yy, mm);
+    let markToday;  // for marking today date
+
+    if (mm === init.today.getMonth() && yy === init.today.getFullYear()) {
+      markToday = init.today.getDate();
+    }
+
+    document.querySelector('.cal-month').textContent = init.monList[mm];
+    document.querySelector('.cal-year').textContent = yy;
+    seDate[0]=String(yy);
+    if(mm+1<10){
+      seDate[1]='0'+String(mm+1);    }
+    else{
+      seDate[1]=String(mm+1);
+    }
+
+    let trtd = '';
+    let startCount;
+    let countDay = 0;
+    for (let i = 0; i < 6; i++) {
+      trtd += '<tr>';
+      for (let j = 0; j < 7; j++) {
+        if (i === 0 && !startCount && j === firstDay.getDay()) {
+          startCount = 1;
+        }
+        if (!startCount) {
+          trtd += '<td>'
+        } else {
+          let fullDate = seDate[0]+seDate[1] + String(init.addZero(countDay + 1));
+          var flag=true;
+          trtd += '<td ';
+
+          for(var p=0;p<init.posts.length;p++){
+            if(init.posts[p].post_date=== fullDate){
+              flag=false;
+              trtd += `style="background-image:url(${init.posts[p].head_image});background-size:cover;" class="day day-img`;
+              break;
+            }
+          }
+          if(flag){
+            trtd+='class="day'
+          }
+          trtd += (markToday && markToday === countDay + 1) ? ' today" ' : '"';
+          trtd += ` data-date="${countDay + 1}" data-fdate="${fullDate}">`;
+        }
+        trtd += (startCount) ? ++countDay : '';
+        if (countDay === lastDay.getDate()) {
+          startCount = 0;
+        }
+        trtd += '</td>';
+      }
+      trtd += '</tr>';
+    }
+    $calBody.innerHTML = trtd;
+  }
+
+  loadYYMM(init.today);
+
+  $btnNext.addEventListener('click', () => loadYYMM(init.nextMonth()));
+  $btnPrev.addEventListener('click', () => loadYYMM(init.prevMonth()));
+
+  var open = () =>{
+    document.getElementById("todo").classList.remove("hidden");
+  }
+  var close = () =>{
+    document.getElementById("todo").classList.add("hidden");
+  }
+
+  $calBody.addEventListener('click', (e) => {
+    if (e.target.classList.contains('day')) {
+      if (init.activeDTag) {
+        init.activeDTag.classList.remove('day-active');
+      }
+      let day = Number(e.target.textContent);
+      seDate[2]=String(day);
+      e.target.classList.add('day-active');
+      loadDate(day, e.target.cellIndex);
+      open();
+      document.querySelector("#bg").addEventListener("click", close);
+      init.activeDTag = e.target;
+      init.activeDate.setDate(day);
+    }
+  });
+</script>
+
+{% endblock %}

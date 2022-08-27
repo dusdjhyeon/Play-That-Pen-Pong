@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load socialaccount %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'single_pages/css/landing.css' %}">
+</head>
+<body>
+    <div id="cincopa_837a4c" style="float:left; position:relative; z-index:300;">...</div><script type="text/javascript">
+        var cpo = []; cpo["_object"] ="cincopa_837a4c"; cpo["_fid"] = "AkJAO7eWWQ_s";
+        var _cpmp = _cpmp || []; _cpmp.push(cpo);
+        (function() { var cp = document.createElement("script"); cp.type = "text/javascript";
+        cp.async = true; cp.src = "https://rtcdn.cincopa.com/libasync.js";
+        var c = document.getElementsByTagName("script")[0];
+        c.parentNode.insertBefore(cp, c); })(); </script>
+    <!-- <audio src="./musics/고래.mp3" controls autoplay loop></audio> -->
+    <div class="background_cover">
+        <a href="{% provider_login_url 'google' %}">
+            <img src="{% static 'single_pages/css/images/lock_100.png' %}" style="position:absolute; width:180px; height:180x; left:420px; top:270px; z-index:200">
+        </a>
+    </div>
+</body>
+</html>

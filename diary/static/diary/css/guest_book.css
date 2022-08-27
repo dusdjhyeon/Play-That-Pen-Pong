@@ -1,0 +1,63 @@
+button{
+    border-style:solid;
+    width:44px;
+    height:20px;
+    cursor:pointer;
+    font-size:13px;
+    margin-top:12px;
+}
+
+.modal{
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    z-index:300;
+}
+
+.modalBox .head{
+    background-color:grey;
+    border-bottom:2px solid black;
+    padding-top:1px;
+    height:30px;
+    width:100%;
+}
+
+.modal .bg{
+    width:100%;
+    height:100%;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modalBox{
+    position:absolute;
+    background-color:#fff;
+    width:350px;
+    height:230px;
+    border:2px solid black;
+}
+
+.modalBox button{
+    border-style:solid;
+    width:44px;
+    height:20px;
+    font-size:13px;
+    box-shadow: 1px 1px 1px grey;
+}
+
+.hidden{
+    display:none;
+}
+
+.our_book{
+    background-image:url('./images/ocean.jpg');
+    background-size:cover;
+    margin-top:20px;
+    height:400px;
+    width:355px;
+    position:absolute;
+}

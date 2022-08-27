@@ -1,0 +1,76 @@
+{% extends 'single_pages/base.html' %}
+{% load static %}
+{% block main_area %}
+<head>
+    <link rel="stylesheet" href="{% static 'diary/css/post_list.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+</head>
+
+
+        {% if user.is_superuser %}
+        <a href="/diary/create_post/">
+                <img src="{% static 'diary/css/images/letterbutton.png' %}" style="position:absolute; width:39px; height:22px; left:895px; top:90px; z-index:200">
+        </a>
+        {% endif %}
+        <div class="wrapper">
+            <div class="wrapper__left">
+                <div class="wrapper__left__body">
+                    <div class="header">
+                        {% for p in post_list|slice:":4" %}
+                        <div class="polaroid">
+                            {% if p.head_image %}
+                            <a href="{{ p.get_absolute_url }}">
+                            <img src="{{ p.head_image.url }}" style="width:139px; height:139px" alt="{{ p }} head image" />
+                            </a>
+                            {% else %}
+                            <a href="{{ p.get_absolute_url }}">
+                            <img src="https://picsum.photos/seed/{{ p.id }}/139/139" alt="random_image"/>
+                            {% endif %}
+                            </a>
+                            <p class="jm-font">{{ p.title }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper__right">
+                <div class="wrapper__right__body">
+                    <div class="header">
+                        {% for p in post_list|slice:"4:" %}
+                        <div class="polaroid">
+                            {% if p.head_image %}
+                            <a href="{{ p.get_absolute_url }}">
+                            <img src="{{ p.head_image.url }}" style="width:139px; height:139px" alt="{{ p }} head image" />
+                            </a>
+                            {% else %}
+                            <a href="{{ p.get_absolute_url }}">
+                            <img src="https://picsum.photos/seed/{{ p.id }}/139/139" alt="random_image"/>
+                            {% endif %}
+                            </a>
+                            <p class="jm-font">{{ p.title }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if is_paginated %}
+            <!-- Pagination -->
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">
+            <img src="{% static 'diary/css/images/left.png' %}" style="position:absolute; width:30px; height:30px; left:465px; top:550px; z-index:200"/>
+        </a>
+    {% endif %}
+    {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">
+                <img src="{% static 'diary/css/images/right.png' %}" style="position:absolute; width:30px; height:30px; left:540px; top:550px; z-index:200"/>
+            </a>
+    {% endif %}
+{% endif %}
+        </div>
+    </div>
+    </div>
+{% endblock %}
+</body>
+</html>

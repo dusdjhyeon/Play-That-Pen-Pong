@@ -1,0 +1,16 @@
+.avatar{
+    background-image:url('./images/main.png');
+    background-size:cover;
+    margin-top:-44px;
+    margin-left:-50px;
+    height:400px;
+    width:345px;
+    position:absolute;
+}
+
+.capture{
+    margin-top:90px;
+    margin-left:50px;
+    height:320px;
+    width:248px;
+}

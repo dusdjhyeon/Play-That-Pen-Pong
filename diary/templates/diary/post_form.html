@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="ko">
+
+<head>
+
+  <title>Create Post - Diary</title>
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{% static 'diary/css/blog-post.css' %}" media="screen">
+  <link rel="shortcut icon" href="{% static 'diary/css/images/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'single_pages/css/comment.css' %}">
+  <script src="https://kit.fontawesome.com/c609b81c0f.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <!-- Post Content Column -->
+      <div class="post-form" style="width:900px; padding-left:10px; margin-left:50px; background-color:#F5F5F5; height:flex;">
+        <a href="/diary/" style="font-size:13px; margin-left:805px;" role="button"><button><i class="fas fa-book"></i> List</button></a>
+        <h1>Create New Post</h1>
+          <hr/>
+          <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <table>
+              {{ form }}
+            </table>
+              <button type="submit" style="font-size:13px; margin-left:800px; margin-top:20px; margin-bottom:15px;">Submit</button>
+          </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
