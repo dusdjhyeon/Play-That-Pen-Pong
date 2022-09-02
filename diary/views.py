@@ -1,8 +1,5 @@
 import base64
-from io import BytesIO
-import random
-from django.core.files import File
-from tkinter import Image
+
 from single_pages.models import Profile
 import os
 from django.conf import settings
@@ -103,7 +100,7 @@ def avatar_profile(request):
 
     filename = 'profile.png'
     imgdata = base64.b64decode(data)
-    img_root = settings.MEDIA_ROOT+ '\\'+ filename
+    img_root = settings.MEDIA_ROOT+ '/'+ filename
     with open(img_root,'wb') as f:
         f.write(imgdata)
         profile.profile = filename
