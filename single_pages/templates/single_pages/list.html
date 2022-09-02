@@ -25,6 +25,9 @@
                      A[6]="가족을 제외하고 내 인생에 가장 영향력 있던 사람은?"
                      A[7]="특이하고 사소한 장점을 자랑해본다면?"
                      A[8]="내가 자주하는 상상은?"
+                     A[9]="내가 가장 좋아하는 노래와 이유는?"
+                     A[10]="요즘 가장 고민되거나 힘든 일은?"
+                     A[11]="가장 행복했던 기억은?"
                      var rend=Math.floor(A.length *Math.random());
                      return A[rend];
                   }
@@ -36,12 +39,14 @@
             </td>
          </tr>
          <tr>
-            <td colspan=5><textarea name="content" id="content" style="font-size:9px; height:65px; width:300px; resize:none; margin-top:3px;"></textarea></td>
+            <td colspan=5><textarea name="content" id="content" placeholder="Check out our answers!" style="font-size:9px; height:65px; width:300px; resize:none; margin-top:3px;"></textarea></td>
          </tr>
          <tr>
+            {% if user.is_superuser %}
             <td colspan=4 align=right>
                <button type="submit" style="font-size:9px; left:270px; top:98px; position:absolute">Enter</button>
             </td>
+            {% endif %}
          </tr>
       <br>
       </br>
@@ -58,6 +63,7 @@
 
                   </td>
                </tr>
+               {% if user.is_superuser %}
                <td><button type="button" style="font-size:9px;" id="comment-{{ comment.pk }}" data-toggle="modal"
                   data-target="#deleteCommentModal-{{ comment.pk }}">Delete</button></td>
                <!-- Modal -->
@@ -70,6 +76,7 @@
                      <button type="button" id="delcomment-{{ comment.pk }}">No</button>
                   </div>
                </div>
+               {% endif %}
                <script>
                   var open = () =>{
                      document.getElementById("deleteCommentModal-{{ comment.pk }}").classList.remove("hidden");

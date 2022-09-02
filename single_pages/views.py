@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.shortcuts import redirect, render
-from .models import Comment, Information
+from .models import Comment, Information, Profile
 from diary.models import Post
 from django.http import HttpResponseRedirect
 import json
@@ -9,7 +9,8 @@ def landing(request):
     if request.user.is_authenticated:
         profile = Information.objects.last()
         postall=Post.objects.all().order_by('-created_at')
-        information = {'profile':profile, 'postall':postall}
+        img = Profile.objects.last()
+        information = {'profile':profile, 'postall':postall, 'img':img}
 
         return render(request, 'single_pages/landing.html', information)
     else:

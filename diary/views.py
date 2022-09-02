@@ -1,4 +1,9 @@
 import base64
+from io import BytesIO
+import random
+from django.core.files import File
+from tkinter import Image
+from single_pages.models import Profile
 import os
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -92,15 +97,16 @@ def avatar(request):
 
 @csrf_exempt
 def avatar_profile(request):
+    profile = Profile()
     data = request.POST.__getitem__('data')
-
     data = data[22:]
 
-    path = str(os.path.join('single_pages' + settings.STATIC_URL, 'single_pages/css/images/'))
     filename = 'profile.png'
-
-    image = open(path + filename, "wb")
-    image.write(base64.b64decode(data))
-    image.close()
+    imgdata = base64.b64decode(data)
+    img_root = settings.MEDIA_ROOT+ '\\'+ filename
+    with open(img_root,'wb') as f:
+        f.write(imgdata)
+        profile.profile = filename
+    profile.save()
 
     return HttpResponseRedirect('avatar')

@@ -25,8 +25,7 @@
       <!-- Post Content Column -->
       <div class="col-lg-9" style="width:900px;padding-left:10px; margin-left:50px;background-color:#F5F5F5; height:flex;">
         <div class="col-log-9" style="padding-left:610px">
-          <a href="/diary/" style="font-size:13px;" role="button"><button><i class="fas fa-book"></i> List</button></a>
-          {% if user.is_authenticated %}
+          {% if user.is_superuser %}
             <a href="/diary/update_post/{{ post.pk }}/" style="font-size:13px;" role="button"><button><i class="fas fa-pencil-alt"></i> Edit Post</button></a>
             <button type="button" style="font-size:13px;" id="post-{{ post.pk }}" data-toggle="modal" data-target="#deletePostModal-{{ post.pk }}"><i class="fas fa-trash-alt"></i> Delete Post</button>
             <!-- Modal -->
@@ -52,6 +51,7 @@
                </script>
 
           {% endif %}
+          <a href="/diary/" style="font-size:13px;" role="button"><button><i class="fas fa-book"></i> List</button></a>
         </div>
         <!-- Title -->
         <h1 class="mt-4">{{ post.title }}</h1>

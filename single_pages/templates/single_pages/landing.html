@@ -14,12 +14,15 @@
             <div class="wrapper__left">
                 <div class="wrapper__left__body">
                     <div class="header">
-                        <div class=headerGrey style="float:left; margin-right:30px">
+                        <div class=headerGrey style="float:left; margin-right:30px;">
+                          <img src="{{ img.profile.url }}" style="width:100%;height:100%;">
                         </div>
                         <div class="profileWrapper" style=" display:inline;">
+                          {% if user.is_superuser %}
                             <a style="font-size:9px; color:#999999; cursor:pointer;" id="information" data-toggle="modal" data-target="informationModal">
                                 <i class="fas fa-pen" style="margin-bottom:20px; margin-top:30px; padding-left:55px;"> Edit</i>
                             </a>
+                          {% endif %}
                             <a href="/accounts/logout" style="font-size:9px; color:#999999; cursor:pointer; padding-left:5px;">
                                 <i class="fas fa-unlock"> Logout</i>
                             </a>

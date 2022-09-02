@@ -34,6 +34,7 @@
 
                //ajax 통신
                $.ajax({
+                  async:false,
                   type:'POST',
                   url :"{% url 'diary:avatar_profile' %}",
                   data:{data:data},

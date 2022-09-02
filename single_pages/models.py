@@ -34,3 +34,9 @@ class Information(models.Model):
 
     def __str__(self):
         return f'[Update{self.pk}] Information'
+
+class Profile(models.Model):
+    profile = models.ImageField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.pk} Profile'
