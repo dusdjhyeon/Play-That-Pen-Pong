@@ -202,7 +202,7 @@
       this.activeDate = d;
       return d;
     },
-    addZero: (num) => (num < 10) ? '0' + num : num,
+    addZero: (num) => (num < 10) ? '0' + num : num, //현재 날짜와 비교를 위해 한자리 숫자 앞에 0추가
     activeDTag: null,
     getIndex: function (node) {
       let index = 0;
@@ -219,8 +219,6 @@
   const $btnPrev = document.querySelector('.btn-cal.prev');
 
   const seDate=[]
-  const dateFunc=()=>{};
-
 
 
   /**
