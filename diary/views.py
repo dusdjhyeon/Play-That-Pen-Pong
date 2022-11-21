@@ -104,8 +104,7 @@ def avatar_profile(request):
         f.write(imgdata)
 
     profile = Profile()
-    profile.profile = Image.open(filename)
-    
+    profile.profile = Image.open(img_root)
     profile.save()
 
     return HttpResponseRedirect('avatar')
