@@ -94,7 +94,6 @@ def avatar(request):
 
 @csrf_exempt
 def avatar_profile(request):
-    profile = Profile()
     data = request.POST.__getitem__('data')
     data = data[22:]
 
@@ -103,7 +102,9 @@ def avatar_profile(request):
     img_root = settings.MEDIA_ROOT+ '/'+ filename
     with open(img_root,'wb') as f:
         f.write(imgdata)
-    profile.profile = Image(filename)
+
+    profile = Profile()
+    profile.profile = Image.open(filename)
     
     profile.save()
 
