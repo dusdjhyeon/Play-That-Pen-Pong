@@ -80,8 +80,7 @@ pip install pillow
 #### Green bookmark (post_list):
 ![image](https://user-images.githubusercontent.com/71493251/202917601-120cd9a9-8110-41d2-8de9-755fa795bc37.png)
 
-## 💙 Architecture
-p114
+
 ## 💜 Contact
 - 강다현 | dusdj0813@khu.ac.kr
 - 김나현 | knh4769@khu.ac.kr
